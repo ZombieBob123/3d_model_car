@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>3d</title>
+	<link rel="stylesheet" href="style/style.css">
+</head>
+	<body>
+		
+
+		<script src="script/three.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+		<script>
+
+		 scene = new THREE.Scene();
+		 camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		 scene.background = new THREE.Color(0x00000);
+
+		camera.position.z = 2.50; 
+		camera.rotation.x -= 0.20;
+
+
+		const renderer = new THREE.WebGLRenderer({antialias: true });
+		renderer.setClearColor(0x000000, 20);
+		renderer.setSize(1349, 720);
+
+		renderer.domElement.setAttribute("id", "3dtestobj");
+		document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+		hlight = new THREE.AmbientLight(0x404040,10);
+		scene.add(hlight);
+
+		light = new THREE.PointLight(0xc4c4c4,10);
+		light.position.set(0,300,500);
+		scene.add(light);
+
+		light2 = new THREE.PointLight(0xc4c4c4,20);
+
+		light2.position.set(500,100,0);
+		scene.add(light2);
+
+		light3 = new THREE.PointLight(0xc4c4c4,10);
+		light3.position.set(0,100,-500);
+		scene.add(light3);
+
+		light4 = new THREE.PointLight(0xc4c4c4,10);
+		light4.position.set(-500,300,500);
+		scene.add(light4);
+
+		//const helper = new THREE.PointLightHelper(pLight);
+		//scene.add(helper);
+
+		
+	
+		let loader = new THREE.GLTFLoader();
+		let obj = null;
+
+
+		loader.load("models/scene.gltf", function (gltf) {
+			obj = gltf;
+			obj.scene.scale.set(0.5, 0.5, 0.5);
+
+
+			scene.add(obj.scene);
+
+		})
+
+
+		function animate() {
+			requestAnimationFrame(animate); 
+			renderer.render(scene, camera);
+
+			if (obj) {
+				obj.scene.rotation.y += 0.03;
+			}	
+		}
+
+		 animate();
+
+		/*const scene = new THREE.Scene();
+		 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 100 );
+		 
+		const renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
+
+		const material = new THREE.MeshBasicMaterial({ color: "red"});
+
+		let width = 1;
+		let height = 1;
+
+
+		const geometry = new THREE.Mesh( new THREE.BoxGeometry(width, height), material);
+		scene.add(geometry);
+
+		camera.position.z = 3;
+
+		function animate() {
+			requestAnimationFrame(animate); 
+			renderer.render(scene, camera);
+	
+			geometry.rotation.y += 0.07;	
+		}
+
+		animate();*/
+
+		</script>		
+	</body>
+</html>
